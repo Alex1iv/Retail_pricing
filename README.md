@@ -1,6 +1,5 @@
 # Retail_pricing
 
-# Loan_repayment
 
 ## Content
 

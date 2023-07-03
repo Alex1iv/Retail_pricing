@@ -34,60 +34,7 @@ def qq_plot(data:pd.DataFrame, features:list, target:str):
         fig.suptitle(f'Feature {i} distribution and comparison with the target \n------------------', y=-0.05);
         
 
-def get_ROC_plot(model,  X_test, y_test, title:str,  plot_counter:int=None):
-    """
-    Create the roc curve plot
-    Args:
-        model (_type_): pre-trained model to get prediction
-        X_test (_type_): X matrice with 
-        y_test (_type_): y predicted values
-        title (_type_): _description_
-        figpath (_int_): figure path for saving
-    """
-    y_pred = model.predict_proba(X_test)[:,1]
-    metric = roc_auc_score(y_test, y_pred).round(3)
-    print('roc_auc: ', metric)
 
-    false_positive_rates, true_positive_rates, threshold = roc_curve(y_test, y_pred)
-
-
-    # Plot
-    fig, ax = plt.subplots(figsize=(5, 5))
-
-    # ROC curve
-    ax.plot(false_positive_rates, true_positive_rates, 
-            label='Smoothed values ROC-AUC')
-
-    # Random model
-    ax.plot([0, 1], [0, 1], color='k', lw=2, linestyle=':', 
-            label='Model predicting random')
-
-    ax.set_xlabel('False Positive Rate')
-    ax.set_ylabel('True Positive Rate')
-
-    ax.fill_between(false_positive_rates, 
-                    true_positive_rates, 
-                    step="pre", 
-                    alpha=0.4, label='Area under curve (ROC-AUC)')
-    
-    # Annotate figure with ROC curve
-    plt.annotate(f'ROC: {metric}', 
-        xy=(0.45,0.6), textcoords='data', 
-        bbox={'facecolor': 'w', 'alpha': 0.95, 'pad': 10} 
-    );
-    
-    ax.legend()
-    
-    
-    if plot_counter is not None:
-        ax.set_title(f'Fig.{plot_counter} - ROC curve for {title}', y=-0.25, fontsize=13, loc='center')
-        plt.tight_layout()
-        plt.savefig(path_figures + f'fig_{plot_counter}.png')
-        
-    else:
-        #plot_counter=1
-        plt.tight_layout()
-        ax.set_title(f'ROC curve for {title}', y=-0.25)
         
         
 def get_comparison(models:dict, X_test, y_test, path_figures=config.path_figures, fig_id:int=None): #title:str, 

@@ -26,7 +26,7 @@ The business objective of the assignment is to identify factors, affecting price
 
 ## Data and methods
 
-The dataset contains monthly sales purchases between 2017 and 2018 years.  
+[The dataset](https://www.kaggle.com/datasets/suddharshan/retail-price-optimization) contains monthly sales purchases between 2017 and 2018 years.  
 
 The unit price is the target feature. It is essential, that it is discounted in case of wholesale as shown on the fig.1.
 
@@ -38,11 +38,11 @@ The company is competing with 3 other companies as shown on the fig.2. The compa
 
 Sales of goods categories significantly change by month as shown on the fig.4
 
-<div align="center"> <img src="./figures/fig_4.png" width="700">  </div>
+<div align="center"> <img src="./figures/fig_4.png" width="800">  </div>
 
 Wide range of product scoring indicates that clients have polar opinions towards company goods as shown on the fig.5
 
-<div align="center"> <img src="./figures/fig_4.png" width="700">  </div>
+<div align="center"> <img src="./figures/fig_5.png" width="400">  </div>
 
 
 ## ML model

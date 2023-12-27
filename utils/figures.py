@@ -7,12 +7,13 @@ from scipy import stats
 
 from utils.config_reader import config_reader 
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.metrics import roc_curve, roc_auc_score, PredictionErrorDisplay
 
 
 # Импортируем константы из файла config
 config = config_reader('../config/config.json')
 path_figures = config.path_figures
+random_seed = config.random_seed
 
 def qq_plot(data:pd.DataFrame, features:list, target:str):
     # display pair plots
@@ -91,3 +92,41 @@ def annotate_scatterplot(fig)->dict:
         args[i] = list(stats.linregress(x=fig.get_lines()[i].get_xdata(),y=fig.get_lines()[i].get_ydata()))[:3]
     
     return args
+
+def plot_actual_vs_predicted(y_true:np.array, y_pred:np.array, plot_counter:int=None):
+    """Compares actual values and its residuals with predicted 
+
+    Args:
+        y_true (np.array): actual values 
+        y_pred (np.array): predicted values
+        plot_counter (int, optional): plot number. Defaults to None.
+    """    
+    fig, ax = plt.subplots(ncols=2, figsize=(8, 4))
+    PredictionErrorDisplay.from_predictions(
+        y_true = y_true,
+        y_pred = y_pred,
+        kind="actual_vs_predicted",
+        subsample=100,
+        ax=ax[0],
+        random_state=random_seed,
+    )
+    ax[0].set_title("Actual vs. Predicted values")
+
+    PredictionErrorDisplay.from_predictions(
+        y_true = y_true,
+        y_pred = y_pred,
+        kind="residual_vs_predicted",
+        subsample=100,
+        ax=ax[1],
+        random_state=random_seed,
+    )
+    ax[1].set_title("Residuals vs. Predicted Values")
+    #
+    plt.suptitle(f"Fig.{plot_counter} - Plotting cross-validated predictions", y=0.05)
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95] )
+            
+    if plot_counter is None:
+        plot_counter=1
+        
+    else:
+        plt.savefig(path_figures + f'fig_{plot_counter}.png')
